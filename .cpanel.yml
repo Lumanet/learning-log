@@ -3,9 +3,19 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home/viernesgastronom/repositories/learning-log
 
-    # Clonar el repositorio
-    - echo "Clonando el repositorio..."
-    - /usr/local/cpanel/3rdparty/bin/git clone https://github.com/Lumanet/learning-log.git $DEPLOYPATH
+    # Cambiar al directorio de despliegue
+    - echo "Cambiando al directorio de despliegue..."
+    - cd $DEPLOYPATH
+
+    # Clonar el repositorio si no existe, o hacer pull si ya existe
+    - if [ ! -d "$DEPLOYPATH/.git" ]; then
+        echo "Clonando el repositorio...";
+        /usr/local/cpanel/3rdparty/bin/git clone https://github.com/Lumanet/learning-log.git $DEPLOYPATH;
+      else
+        echo "Actualizando el repositorio...";
+        cd $DEPLOYPATH;
+        /usr/local/cpanel/3rdparty/bin/git pull;
+      fi
 
     # Cambiar a la rama especificada
     - echo "Cambiando a la rama main..."

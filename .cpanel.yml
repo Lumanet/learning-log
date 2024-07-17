@@ -1,31 +1,21 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=${CPANEL_BASEDIR}/${APPNAME}
-    - echo "Iniciando despliegue en ${DEPLOYPATH}"
+    - export DEPLOYPATH=/home/viernesgastronom/repositories/learning-log
 
-    # Cambiar al directorio del proyecto clonado
-    - cd ${DEPLOYPATH}
+    # Clonar el repositorio
+    - echo "Clonando el repositorio..."
+    - /usr/local/cpanel/3rdparty/bin/git clone https://github.com/Lumanet/learning-log.git $DEPLOYPATH
 
-    # Crear un entorno virtual (si aún no existe)
-    - if [ ! -d "env" ]; then python3 -m venv env; fi
+    # Cambiar a la rama especificada
+    - echo "Cambiando a la rama main..."
+    - cd $DEPLOYPATH
+    - /usr/local/cpanel/3rdparty/bin/git checkout main
 
-    # Activar el entorno virtual
-    - source env/bin/activate
+    # Instalar dependencias
+    - echo "Instalando dependencias..."
+    - /usr/local/bin/pip install -r requirements.txt
 
-    # Instalar las dependencias del proyecto
-    - pip install -r requirements.txt
-
-    # Configurar el archivo de inicio de la aplicación
-    - echo "python3 manage.py runserver 0.0.0.0:8000" > start.sh
-    - chmod +x start.sh
-
-    # Crear un archivo .htaccess para redirigir el tráfico a tu aplicación
-    - |
-      echo 'RewriteEngine On
-      RewriteCond %{REQUEST_FILENAME} !-f
-      RewriteCond %{REQUEST_FILENAME} !-d
-      RewriteRule ^(.*)$ http://127.0.0.1:8000/$1 [P,L]' > ${DEPLOYPATH}/.htaccess
-
-    # Iniciar la aplicación
-    - bash start.sh
+    # Ejecutar migraciones
+    - echo "Ejecutando migraciones..."
+    - /usr/local/bin/python3 manage.py migrate

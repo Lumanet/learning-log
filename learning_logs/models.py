@@ -5,7 +5,7 @@ class Topic(models.Model):
     """Un tema sobre que está aprendiendo el usuario."""
     text = models.CharField(max_length=200)
     date_added = models.DateTimeField(auto_now_add=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='temas')
     
     def __str__(self):
         """Devuelve una representación del modelo como cadena."""
@@ -13,7 +13,7 @@ class Topic(models.Model):
 
 class Entry(models.Model):
     """Algo específico aprendiendo sobre un tema."""
-    topic= models.ForeignKey(Topic, on_delete=models.CASCADE)
+    topic= models.ForeignKey(Topic, on_delete=models.CASCADE, related_name='entradas')
     text = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
     

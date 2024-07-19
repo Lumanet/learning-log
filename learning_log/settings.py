@@ -44,8 +44,10 @@ INSTALLED_APPS = [
     # Mis aplicaciones
     'learning_logs',
     'users',
+    'mi_api',
     # Aplicaciones de terceros
     'django_bootstrap5',
+    'rest_framework',
     # Aplicaciones de django predeterminadas.
     'django.contrib.admin',
     'django.contrib.auth',
@@ -157,3 +159,9 @@ LOGIN_REDIRECT_URL = 'learning_logs:index'
 LOGOUT_REDIRECT_URL = 'learning_logs:index'
 LOGIN_URL = 'users:login'
 
+# Configuración de Rest Framework.
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+    ]
+}

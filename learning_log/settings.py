@@ -25,17 +25,18 @@ SECRET_KEY = 'django-insecure-(-^j6gk4309c0zt_z4$ch)3bmf3@4x%pdes5-_iw+5a#xoax3z
 # The `DYNO` env var is set on Heroku CI, but it's not a real Heroku app, so we have to
 # also explicitly exclude CI:
 # https://devcenter.heroku.com/articles/heroku-ci#immutable-environment-variables
-IS_HEROKU_APP = "DYNO" in os.environ and not "CI" in os.environ
+# IS_HEROKU_APP = "DYNO" in os.environ and not "CI" in os.environ
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if not IS_HEROKU_APP:
-    DEBUG = True
+# if not IS_HEROKU_APP:
+#     DEBUG = True
 
-if IS_HEROKU_APP:
-    ALLOWED_HOSTS = ["*"]
-else:
-    ALLOWED_HOSTS = [".localhost", "127.0.0.1", "[::1]", "0.0.0.0"]
+# if IS_HEROKU_APP:
+#     ALLOWED_HOSTS = ["*"]
+# else:
+#     ALLOWED_HOSTS = [".localhost", "127.0.0.1", "[::1]", "0.0.0.0"]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
